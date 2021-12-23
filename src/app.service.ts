@@ -1,3 +1,4 @@
+import Erc721 from './abi/Erc721.json'
 import { config } from 'src/app.config'
 import { providers, Contract, BigNumber } from 'ethers'
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
@@ -6,7 +7,7 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common'
 export class AppService implements OnApplicationBootstrap {
   async onApplicationBootstrap() {
     const provider = new providers.InfuraProvider(undefined, process.env.INFURA_PROJECT_ID)
-    const contract = new Contract(config.contractAddress, config.abi, provider)
+    const contract = new Contract(config.contractAddress, Erc721, provider)
     const tokenSupply: BigNumber = await contract.totalSupply()
     const tokenIdsRequests = []
     for (let i = 0; i < tokenSupply.toNumber(); i++) tokenIdsRequests.push(contract.tokenByIndex(i))
